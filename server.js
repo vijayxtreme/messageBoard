@@ -5,6 +5,10 @@ var Post = require('./models/post');
 var app = express();
 app.use(bodyParser.json());
 
+app.get('/', function(req, res){
+	res.sendFile('layouts/posts.html', {root: __dirname});
+});
+
 app.get('/api/posts', function(req, res, next){
 	Post.find(function(err,posts){
 		if(err){return next(err); }
@@ -19,7 +23,7 @@ app.post('/api/posts', function(req, res, next){
 	});
 	post.save(function(err, post){
 		if(err) { return next(err); }
-		res.status.json(201, post);
+		res.status(201).json(post);
 	});
 });
 
